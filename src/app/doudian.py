@@ -26,14 +26,14 @@ def main():
     pack = qr_login_capture(
         login_url=LOGIN_URL,
         actions=ACTIONS,
-        target_selector=TARGET_SELECTOR,
+        target_selector="div.account-center-image-content",
         ready_mode="bg",  # 二维码在 background-image
-        outfile=str(QRCODE_FILE),
+        outfile="/app/users/qrcode_doudian.png",
         headless=settings.headless,
         timeout_ms=settings.timeout_ms,
         viewport=(settings.viewport_width, settings.viewport_height),
         device_scale_factor=settings.device_scale_factor,
-        export_cookies=True,
+        export_cookies=False,
         cookie_domains=COOKIE_DOMAINS,
         cookies_outfile=str(COOKIES_FILE),
         # 选配：代理
