@@ -1,0 +1,1 @@
+# Worker 内部路由（/internal/*），Gateway 反向代理时调用

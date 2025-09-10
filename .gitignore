@@ -1,0 +1,119 @@
+# ================================
+# Python 基础
+# ================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 包构建 / 发行
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# 运行日志 / 临时文件
+*.log
+logs/
+tmp/
+run/
+
+# 单元测试 / 覆盖率
+.pytest_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.cache/
+.nox/
+
+# 类型检查缓存
+.mypy_cache/
+.pytype/
+.dmypy.json
+.pyre/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# 虚拟环境
+.env
+.venv
+env/
+venv/
+ENV/
+pythonenv*
+Pipfile.lock
+
+# Poetry
+.poetry/
+poetry.lock
+
+# ================================
+# 环境变量与密钥
+# ================================
+# 真实环境文件不入库，仅保留示例
+.env.*
+!.env.example
+.envs/
+!.envs/.example.env
+
+# ================================
+# Playwright / 自动化产物
+# ================================
+# 官方默认产物目录（按需保留）
+playwright-report/
+test-results/
+blob-report/
+trace.zip
+*.trace.zip
+
+# 我们项目内的调试 / 二维码 / 会话物料
+debug_page.html
+debug_page.png
+qrcode_*.png
+qrcode_doudian*.png
+sessions/
+
+# 若在仓库根生成用户数据（cookies 等），统一忽略
+users/
+
+# ================================
+# 应用层（可选：如使用 sqlite 等）
+# ================================
+*.sqlite
+*.db
+*.db-journal
+
+# ================================
+# IDE / 编辑器
+# ================================
+# VS Code：一般忽略，但保留调试用 launch.json
+.vscode/*
+!.vscode/launch.json
+
+# PyCharm / IntelliJ
+.idea/
+*.iml
+
+# 其它编辑器
+.vscode-test/
+*.swp
+*.swo
+
+# ================================
+# 操作系统杂项
+# ================================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# ================================
+# Docker / Compose
+# ================================
+# 本地覆盖文件（如存在）
+docker-compose.override.yml
+# Docker 构建缓存（若有）
+.docker/

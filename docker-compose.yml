@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      - DISPLAY=${DISPLAY}
+    ports:
+      - "8080:8080"
+    container_name: doudian_app
