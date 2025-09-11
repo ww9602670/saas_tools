@@ -1,35 +1,35 @@
-# 二维码过期检测 & 自动点击“刷新”封装
-
-# qrcode_refresh.py
+# src/app/services/qrcode_refresh.py
+from __future__ import annotations
 import base64, time
 from pathlib import Path
+from typing import Optional
 from ..utils.files import atomic_write_bytes
 
 class QRCodeRefresher:
-    async def capture_qr(self, page, selector:str):
-        el = await page.wait_for_selector(selector, timeout=30_000)
-        png = await el.screenshot(type="png")
-        # 落盘（会话目录由上层传入，这里简化）
-        path = Path("/tmp") / f"qrcode_{int(time.time()*1000)}.png"
-        await atomic_write_bytes(path, png)
-        b64 = base64.b64encode(png).decode()
-        self._last_b64 = b64 
-        return b64, str(path)
+    def __init__(self, *, qr_selector: str, refresh_button_selector: str):
+        self.qr_selector = qr_selector
+        self.refresh_button_selector = refresh_button_selector
+        self._last_b64: Optional[str] = None
 
-    async def refresh_and_recapture(self, page):
-        btn = await page.query_selector("button.account-center-code-expired-refresh")
+    async def capture_qr(self, page, *, out_path: Optional[Path] = None) -> str:
+        el = await page.wait_for_selector(self.qr_selector, timeout=30_000)
+        png = await el.screenshot(type="png")
+        if out_path:
+            atomic_write_bytes(out_path, png)
+        b64 = base64.b64encode(png).decode("ascii")
+        self._last_b64 = b64
+        return b64
+
+    async def refresh_and_recapture(self, page) -> Optional[str]:
+        btn = await page.query_selector(self.refresh_button_selector)
         if not btn:
-            return False
+            return None
         await btn.click()
-        await page.wait_for_timeout(600)  # 等新二维码渲染
-        # 再抓一次
-        el = await page.query_selector("img.qrcode, canvas.qrcode, div.qrcode img")
-        if not el:
-            return False
-        png = await el.screenshot(type="png")
-        self._last_b64 = base64.b64encode(png).decode()
-        return True
+        await page.wait_for_timeout(800)
+        try:
+            return await self.capture_qr(page)
+        except Exception:
+            return None
 
-    async def last_qr_b64(self, page):
-        return getattr(self, "_last_b64", None)
-
+    async def last_qr_b64(self) -> Optional[str]:
+        return self._last_b64

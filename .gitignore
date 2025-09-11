@@ -92,6 +92,7 @@ users/
 # VS Code：一般忽略，但保留调试用 launch.json
 .vscode/*
 !.vscode/launch.json
+.devcontainer/
 
 # PyCharm / IntelliJ
 .idea/
